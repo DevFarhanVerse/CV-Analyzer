@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Extractor</title>
+    <style>
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #333333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555555;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .status {
+            color: #666666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .file-list {
+            text-align: left;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .file-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .file-list li {
+            padding: 5px 0;
+            color: #333333;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        button, a.button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        button:hover, a.button:hover {
+            background-color: #45a049;
+        }
+        button:disabled, a.button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 CV Extractor</h1>
+        <p>Upload CV files (PDF, DOCX, TXT) and click 'Extract Details' to generate a CSV.</p>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="files" multiple accept=".pdf,.docx,.txt">
+            <br>
+            <button type="submit">Extract Details</button>
+        </form>
+        {% if uploaded_files %}
+        <div class="file-list">
+            <h3>Uploaded Files:</h3>
+            <ul>
+                {% for file in uploaded_files %}
+                <li>{{ file }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <p class="status">Status: {{ status }}</p>
+        {% if csv_ready %}
+        <a href="{{ url_for('download_csv') }}" class="button">Download CSV</a>
+        {% endif %}
+    </div>
+</body>
+</html>
